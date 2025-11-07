@@ -1,6 +1,9 @@
 # lianggui
 
 An Electron application with Vue
+使用electron-vite脚手架
+node v22.14.0
+npm 10.9.2
 
 ## Recommended IDE Setup
 
