@@ -1,0 +1,49 @@
+appId: com.electron.app
+productName: lianggui
+directories:
+  buildResources: build
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+asarUnpack:
+  - resources/**
+win:
+  executableName: lianggui
+nsis:
+  oneClick: false          # false 表示允许用户选择安装路径
+  perMachine: false        # true 安装到所有用户，false 只安装到当前用户
+  allowToChangeInstallationDirectory: true  # 允许更改路径
+  createDesktopShortcut: true   # 创建桌面快捷方式
+  createStartMenuShortcut: true # 创建开始菜单快捷方式
+  artifactName: ${name}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+
+mac:
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    - NSCameraUsageDescription: Application requests access to the device's camera.
+    - NSMicrophoneUsageDescription: Application requests access to the device's microphone.
+    - NSDocumentsFolderUsageDescription: Application requests access to the user's Documents folder.
+    - NSDownloadsFolderUsageDescription: Application requests access to the user's Downloads folder.
+  notarize: false
+dmg:
+  artifactName: ${name}-${version}.${ext}
+linux:
+  target:
+    - AppImage
+    - snap
+    - deb
+  maintainer: electronjs.org
+  category: Utility
+appImage:
+  artifactName: ${name}-${version}.${ext}
+npmRebuild: false
+publish:
+  provider: generic
+  url: https://example.com/auto-updates
+electronDownload:
+  mirror: https://npmmirror.com/mirrors/electron/
