@@ -2,6 +2,7 @@ import eslintConfig from '@electron-toolkit/eslint-config'
 import eslintConfigPrettier from '@electron-toolkit/eslint-config-prettier'
 import eslintPluginVue from 'eslint-plugin-vue'
 import vueParser from 'vue-eslint-parser'
+import autoImportGlobals from './.eslintrc-auto-import.json'
 
 export default [
   { ignores: ['**/node_modules', '**/dist', '**/out'] },
@@ -16,7 +17,8 @@ export default [
           jsx: true
         },
         extraFileExtensions: ['.vue']
-      }
+      },
+      globals: autoImportGlobals.globals
     }
   },
   {
