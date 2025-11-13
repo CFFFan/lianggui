@@ -14,6 +14,8 @@
 </template>
 
 <script setup>
+import { computed, ref, watch, watchEffect } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { useWindowSize } from '@vueuse/core'
 import Sidebar from './components/Sidebar/index.vue'
 import { AppMain, Navbar, Settings, TagsView } from './components'
@@ -21,8 +23,12 @@ import defaultSettings from '@/settings'
 
 import useAppStore from '@/store/modules/app'
 import useSettingsStore from '@/store/modules/settings'
+import useProjectStore from '@/store/modules/project'
 
 const settingsStore = useSettingsStore()
+const projectStore = useProjectStore()
+const router = useRouter()
+const route = useRoute()
 const theme = computed(() => settingsStore.theme);
 const sideTheme = computed(() => settingsStore.sideTheme);
 const sidebar = computed(() => useAppStore().sidebar);

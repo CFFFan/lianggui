@@ -37,6 +37,13 @@ export const constantRoutes = [
       }
     ]
   },
+  // 登录后直达的项目入口页（不使用主框架 Layout）
+  {
+    path: '/project-entry',
+    component: () => import('@/views/project/project/index.vue'),
+    hidden: true,
+    meta: { title: '项目入口', noCache: true }
+  },
   {
     path: '/login',
     component: () => import('@/views/login'),
@@ -60,11 +67,11 @@ export const constantRoutes = [
   {
     path: '',
     component: Layout,
-    redirect: '/index',
+    redirect: '/project-entry',
     children: [
       {
         path: '/index',
-        component: () => import('@/views/index'),
+        component: () => import('@/views/project/project/info.vue'),
         name: 'Index',
         meta: { title: '首页', icon: 'dashboard', affix: true }
       }
@@ -81,6 +88,20 @@ export const constantRoutes = [
         component: () => import('@/views/system/user/profile/index'),
         name: 'Profile',
         meta: { title: '个人中心', icon: 'user' }
+      }
+    ]
+  },
+  {
+    path: '/project',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'info',
+        component: () => import('@/views/project/project/info.vue'),
+        name: 'ProjectInfo',
+        meta: { title: '项目信息' },
+        redirect: '/index'
       }
     ]
   }

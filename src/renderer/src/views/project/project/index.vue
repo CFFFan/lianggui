@@ -91,8 +91,11 @@
 
     <el-table v-loading="loading" :data="projectList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="项目ID" align="center" prop="id" />
-      <el-table-column label="桥梁名称" align="center" prop="bridgeName" />
+      <el-table-column label="桥梁名称" align="center" prop="bridgeName">
+        <template #default="scope">
+          <el-link type="primary" @click="enterMainWithProject(scope.row)">{{ scope.row.bridgeName }}</el-link>
+        </template>
+      </el-table-column>
       <el-table-column label="软件版本" align="center" prop="softwareVersion" />
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="设计单位" align="center" prop="designUnit" />
@@ -167,6 +170,9 @@
 import { listProject, getProject, delProject, addProject, updateProject } from "@/api/project/project";
 
 const { proxy } = getCurrentInstance();
+const router = useRouter();
+import useProjectStore from '@/store/modules/project'
+const projectStore = useProjectStore()
 
 const projectList = ref([]);
 const open = ref(false);
@@ -314,4 +320,16 @@ function handleExport() {
 }
 
 getList();
+
+// 左键点击桥梁名称：进入主框架并记录项目ID
+function enterMainWithProject(row) {
+  if (row && row.id != null) {
+    projectStore.clearSelectedProjectId()
+    projectStore.setSelectedProjectId(row.id)
+  } else {
+    projectStore.clearSelectedProjectId()
+  }
+  // 进入系统主框架首页
+  router.push({ path: '/project/info' })
+}
 </script>

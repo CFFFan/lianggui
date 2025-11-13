@@ -5,16 +5,19 @@
     <top-nav id="topmenu-container" class="topmenu-container" v-if="settingsStore.topNav" />
 
     <div class="right-menu">
+      <div class="right-menu-item hover-effect project-manage-btn" @click="handleProjectManage">
+        项目管理
+      </div>
       <template v-if="appStore.device !== 'mobile'">
         <header-search id="header-search" class="right-menu-item" />
 
-        <el-tooltip content="源码地址" effect="dark" placement="bottom">
+        <!-- <el-tooltip content="源码地址" effect="dark" placement="bottom">
           <ruo-yi-git id="ruoyi-git" class="right-menu-item hover-effect" />
         </el-tooltip>
 
         <el-tooltip content="文档地址" effect="dark" placement="bottom">
           <ruo-yi-doc id="ruoyi-doc" class="right-menu-item hover-effect" />
-        </el-tooltip>
+        </el-tooltip> -->
 
         <screenfull id="screenfull" class="right-menu-item hover-effect" />
 
@@ -57,13 +60,17 @@ import SizeSelect from '@/components/SizeSelect'
 import HeaderSearch from '@/components/HeaderSearch'
 import RuoYiGit from '@/components/RuoYi/Git'
 import RuoYiDoc from '@/components/RuoYi/Doc'
+import { useRouter } from 'vue-router'
 import useAppStore from '@/store/modules/app'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
+import useProjectStore from '@/store/modules/project'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
 const settingsStore = useSettingsStore()
+const projectStore = useProjectStore()
+const router = useRouter()
 
 function toggleSideBar() {
   appStore.toggleSideBar()
@@ -81,7 +88,6 @@ function handleCommand(command) {
       break;
   }
 }
-
 function logout() {
   ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
     confirmButtonText: '确定',
@@ -97,6 +103,11 @@ function logout() {
 const emits = defineEmits(['setLayout'])
 function setLayout() {
   emits('setLayout');
+}
+
+function handleProjectManage() {
+  projectStore.clearSelectedProjectId()
+  router.push('/project-entry')
 }
 </script>
 
@@ -161,6 +172,12 @@ function setLayout() {
           background: rgba(0, 0, 0, 0.025);
         }
       }
+    }
+
+    .project-manage-btn {
+      font-size: 14px;
+      display: flex;
+      align-items: center;
     }
 
     .avatar-container {
