@@ -80,7 +80,7 @@
         <el-form-item>
           <el-space>
             <el-button type="primary" :loading="saving" @click="submitForm">保 存</el-button>
-            <el-button @click="goBack">取消本次更改</el-button>
+            <el-button @click="goBack">返回上次保存结果</el-button>
           </el-space>
         </el-form-item>
       </el-form>

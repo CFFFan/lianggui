@@ -154,10 +154,12 @@
 <script setup name="Material">
 import { listMaterial, getMaterial, delMaterial, addMaterial, updateMaterial } from "@/api/material/material";
 import useProjectStore from "@/store/modules/project";
+import { useRouter } from "vue-router";
 
 const { proxy } = getCurrentInstance();
 const { sys_location } = proxy.useDict('sys_location');
 const projectStore = useProjectStore();
+const router = useRouter();
 
 const materialList = ref([]);
 const open = ref(false);
@@ -188,7 +190,9 @@ const { queryParams, form, rules } = toRefs(data);
 
 /** 查询材料管理列表 */
 function getList() {
+
   loading.value = true;
+  
   listMaterial({
     ...queryParams.value,
     projectId: projectStore.selectedProjectId
@@ -310,6 +314,14 @@ function handleExport() {
     projectId: projectStore.selectedProjectId
   }, `material_${new Date().getTime()}.xlsx`)
 }
+// 页面加载时检查项目ID
+onMounted(() => {
+  if (!projectStore.selectedProjectId) {
+    proxy.$modal?.msgError?.("请先选择项目");
+    router.push({ path: "/project-entry" });
+    return;
+  }
+  getList();
+});
 
-getList();
 </script>
